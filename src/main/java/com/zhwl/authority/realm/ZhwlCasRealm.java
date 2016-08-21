@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.zhwl.authority.service.UserService;
+import com.zhwl.basis.service.TsUserService;
 import com.zhwl.common.util.Constants;
 
 /**
@@ -42,7 +42,7 @@ import com.zhwl.common.util.Constants;
  */
 public class ZhwlCasRealm extends CasRealm {
 
-	private UserService userService;
+	private TsUserService tsUserService;
 
 	@Autowired
 	private CacheManager cacheManager;
@@ -55,8 +55,8 @@ public class ZhwlCasRealm extends CasRealm {
 		setCacheManager(cacheManager);
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setUserService(TsUserService userService) {
+		this.tsUserService = userService;
 	}
 
 	protected AuthenticationInfo doGetAuthenticationInfo(

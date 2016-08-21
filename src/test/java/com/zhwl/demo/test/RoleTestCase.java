@@ -2,6 +2,7 @@ package com.zhwl.demo.test;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -15,12 +16,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import tk.mybatis.mapper.entity.Example;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.github.pagehelper.ISelect;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.zhwl.demo.domain.entity.RoleEntity;
-import com.zhwl.demo.server.mapper.RoleMapper;
+import com.zhwl.basis.mapper.TsUserMapper;
+import com.zhwl.basis.model.TsRole;
+import com.zhwl.basis.model.TsUser;
+import com.zhwl.basis.service.TsUserService;
+import com.zhwl.common.IdWorker;
 
 public class RoleTestCase {
 	
@@ -36,16 +41,19 @@ public class RoleTestCase {
 		SqlSession sqlSession = ac.getBean("sqlSessionFactory",SqlSessionFactory.class).openSession();
 		try {
 		    //获取Mapper
-			final RoleMapper mapper = sqlSession.getMapper(RoleMapper.class);
+			final TsUserMapper mapper = sqlSession.getMapper(TsUserMapper.class);
 			PageHelper.startPage(1, 10);
-			List<RoleEntity> list = mapper.selectAll();
-			PageInfo<RoleEntity> page = new PageInfo<RoleEntity>(list);
+			List<TsUser> list = mapper.selectAll();
+			String findUserRole = mapper.findUserRole("000");
+			System.out.println(findUserRole);
+//			PageInfo<TsUser> page = new PageInfo<TsUser>(list);
+//			page.set
 //			assertEquals(183, list.size());
 //	        assertEquals(183, page.getTotal());
-			RoleEntity role = new RoleEntity();
-			role.setCode(3);
+			TsUser role = new TsUser();
+			role.setUserNo("3");;
 			//jdk6,7用法，创建接口
-			Page<RoleEntity> paging = PageHelper.startPage(1, 10).setOrderBy("id desc").doSelectPage(new ISelect() {
+			Page<TsUser> paging = PageHelper.startPage(1, 10).setOrderBy("USER_ID desc").doSelectPage(new ISelect() {
 			    @Override
 			    public void doSelect() {
 			    	mapper.selectAll();
@@ -53,7 +61,7 @@ public class RoleTestCase {
 			});
 			
 			
-		    System.out.println(mapper.selectCount(role));
+//		    System.out.println(mapper.selectCount(role));
 //		    //查询100
 //		    RoleEntity country = mapper.selectByPrimaryKey(100);
 //		    //根据主键删除
@@ -74,4 +82,26 @@ public class RoleTestCase {
 		}
 	}
 
+	@Test
+	public void testUserService(){
+		TsUserService tsUserService = ac.getBean("tsUserServiceImpl",TsUserService.class);
+//		TsUser tsUser = tsUserService.findByUsername("admin");
+//		TsRole role = new TsRole();
+//		role.setRoleNo("000");
+//		String s = tsUserService.findUserRole(role);
+		TsUser tsUser = new TsUser();
+		tsUser.setUserNo("000000");
+		tsUser.setUserName("000000");
+		tsUser.setUserPassword("000000");
+		tsUser.setUserStatus(1);
+		tsUser.setCreator("admin");
+		tsUser.setCreateTime(new Date());
+		tsUser.setModifier("admin");
+		tsUser.setModifyTime(new Date());
+		tsUser.setRecVer(0);
+		int createUser = tsUserService.createUser(tsUser);
+		System.out.println(createUser);
+	}
+	
+	
 }

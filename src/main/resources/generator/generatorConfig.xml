@@ -4,7 +4,14 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-  <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+  <context id="Mysql0" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+
+    <!-- 生成的Java文件的编码 -->
+    <property name="javaFileEncoding" value="UTF-8"/>
+    <!-- 格式化java代码 -->
+    <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+    <!-- 格式化XML代码 -->
+    <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
 
     <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
       <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
@@ -13,22 +20,74 @@
     </plugin>
 
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                    connectionURL="jdbc:mysql://localhost:3306/demo-shiro"
+                    connectionURL="jdbc:mysql://localhost:3306/my-tms"
                     userId="root"
                     password="123456">
     </jdbcConnection>
 
-    <javaModelGenerator targetPackage="com.zhwl.authority.entity" targetProject="E:\workspace-1\mybatis-demo\src\main\java"/>
+    <javaModelGenerator targetPackage="com.zhwl.basis.model" targetProject="E:/workspace-1//mybatis-demo/src/main/java"/>
 
-    <sqlMapGenerator targetPackage="com.zhwl.authority.mapper"  targetProject="E:\workspace-1\mybatis-demo\src\main\resources"/>
+    <sqlMapGenerator targetPackage="com.zhwl.basis.mapper.xml"  targetProject="E:/workspace-1//mybatis-demo/src/main/java">
+      <property name="enableSubPackages" value="true"/>
+    </sqlMapGenerator>
 
-    <javaClientGenerator targetPackage="com.zhwl.authority.mapper" targetProject="E:\workspace-1\mybatis-demo\src\main\java" type="XMLMAPPER" />
+    <javaClientGenerator targetPackage="com.zhwl.basis.mapper" targetProject="E:/workspace-1//mybatis-demo/src/main/java" type="XMLMAPPER" />
 
-    <table tableName="sys_user" >
-      <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+    <table tableName="ts_dept">
+      <generatedKey column="DEPT_ID" sqlStatement="Mysql" identity="true"/>
     </table>
-    <table tableName="sys_organization" >
-      <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+    <table tableName="ts_resource" >
+      <generatedKey column="RES_ID" sqlStatement="Mysql" identity="true"/>
+    </table>
+    <table tableName="ts_role">
+      <generatedKey column="ROLE_ID" sqlStatement="Mysql" identity="true"/>
+    </table>
+    <table tableName="ts_user" >
+      <generatedKey column="USER_ID" sqlStatement="Mysql" identity="true"/>
+    </table>
+  </context>
+  <context id="Mysql1" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+
+    <!-- 生成的Java文件的编码 -->
+    <property name="javaFileEncoding" value="UTF-8"/>
+    <!-- 格式化java代码 -->
+    <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+    <!-- 格式化XML代码 -->
+    <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+
+    <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+      <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+      <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+      <property name="caseSensitive" value="true"/>
+    </plugin>
+
+
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                    connectionURL="jdbc:mysql://localhost:3306/my-tms"
+                    userId="root"
+                    password="123456">
+    </jdbcConnection>
+
+
+    <javaModelGenerator targetPackage="com.zhwl.authority.model" targetProject="E:/workspace-1//mybatis-demo/src/main/java"/>
+
+    <sqlMapGenerator targetPackage="com.zhwl.authority.mapper.xml"  targetProject="E:/workspace-1//mybatis-demo/src/main/java">
+      <property name="enableSubPackages" value="true"/>
+    </sqlMapGenerator>
+
+    <javaClientGenerator targetPackage="com.zhwl.authority.mapper" targetProject="E:/workspace-1//mybatis-demo/src/main/java" type="XMLMAPPER" />
+
+    <table tableName="ra_dept_role">
+      <generatedKey column="DR_ID" sqlStatement="Mysql" identity="true"/>
+    </table>
+    <table tableName="ra_role_resource" >
+      <generatedKey column="RR_ID" sqlStatement="Mysql" identity="true"/>
+    </table>
+    <table tableName="ra_user_dept">
+      <generatedKey column="UD_ID" sqlStatement="Mysql" identity="true"/>
+    </table>
+    <table tableName="ra_user_role" >
+      <generatedKey column="UR_ID" sqlStatement="Mysql" identity="true"/>
     </table>
   </context>
 </generatorConfiguration>

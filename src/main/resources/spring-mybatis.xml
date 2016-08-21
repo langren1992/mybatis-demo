@@ -13,7 +13,7 @@
     <context:property-placeholder location="classpath:resources.properties"/>
 
     <!-- 扫描注解Bean -->
-    <context:component-scan base-package="com.zhwl.authority">
+    <context:component-scan base-package="com.zhwl">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
@@ -60,10 +60,22 @@
 		<property name="mapperLocations">
 			<list>
 				<value>
-					classpath*:com/zengrui/**/mapper/*mapper.xml
+					classpath*:com/zhwl/**/mapper/xml/**.xml
 				</value>
 			</list>
 		</property>
+		<!-- <property name="typeAliasesPackage" value="com.isea533.ssm.model"/>
+		<property name="plugins">
+		    <array>
+		      <bean class="com.github.pagehelper.PageHelper">
+		        <property name="properties">
+		          <value>
+		            dialect=hsqldb
+		          </value>
+		        </property>
+		      </bean>
+		    </array>
+		  </property> -->
 	</bean>
 	
 	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">

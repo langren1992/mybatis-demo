@@ -13,8 +13,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.zhwl.authority.entity.UserEntity;
-import com.zhwl.authority.service.UserService;
+import com.zhwl.basis.model.TsUser;
+import com.zhwl.basis.service.TsUserService;
 
 
 /**
@@ -27,7 +27,7 @@ import com.zhwl.authority.service.UserService;
 public class ZhwlUserRealm extends AuthorizingRealm {
 
 	@Autowired
-	private UserService userService;
+	private TsUserService tsUserService;
 
 	/**
 	 * 登陆后的权限校验
@@ -52,16 +52,16 @@ public class ZhwlUserRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
 		String username = (String) token.getPrincipal();
-		UserEntity user = userService.findByUsername(username);
+		TsUser user= tsUserService.findByUsername(new TsUser(username));
 		if (user == null) {
 			throw new UnknownAccountException();// 没找到帐号
 		}
-		if (Boolean.TRUE.equals(user.getLocked())) {
+		if (Boolean.TRUE.equals(user.getUserStatus())) {
 			throw new LockedAccountException(); // 帐号锁定
 		}
-		return new SimpleAuthenticationInfo(user.getUsername(), // 用户名
-				user.getPassword(), // 密码
-				ByteSource.Util.bytes(user.getCredentialsSalt()),// salt=username+salt
+		return new SimpleAuthenticationInfo(user.getUserNo(), // 用户名
+				user.getUserPassword(), // 密码
+				ByteSource.Util.bytes(user.getUserNo()+user.getUserSalt()),// salt=username+salt
 				this.getName() // realm name
 		);
 	}
