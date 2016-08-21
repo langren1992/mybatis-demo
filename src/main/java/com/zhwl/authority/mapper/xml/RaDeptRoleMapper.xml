@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhwl.authority.mapper.RaDeptRoleMapper">
+  <resultMap id="BaseResultMap" type="com.zhwl.authority.model.RaDeptRole">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="DR_ID" jdbcType="VARCHAR" property="drId" />
+    <result column="DR_DEPT_NO" jdbcType="VARCHAR" property="drDeptNo" />
+    <result column="DR_ROLE_NO" jdbcType="VARCHAR" property="drRoleNo" />
+    <result column="DR_DESCRIBE" jdbcType="VARCHAR" property="drDescribe" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="MODIFIER" jdbcType="VARCHAR" property="modifier" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="REC_VER" jdbcType="INTEGER" property="recVer" />
+  </resultMap>
+  
+  <!-- 通过用户部门信息查询角色信息 -->
+  <select id="findRoleByDept" parameterType="string" 
+  	resultSets="string">
+  	SELECT DR_ROLE_NO drRoleNo FROM RA_DEPT_ROLE WHERE UR_USER_NO = #{deptNo}
+  </select>
+</mapper>
