@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhwl.authority.mapper.RaDeptRoleMapper">
-  <resultMap id="BaseResultMap" type="com.zhwl.authority.model.RaDeptRole">
+  <resultMap id="RaDeptRoleResultMap" type="com.zhwl.authority.model.RaDeptRole">
     <!--
       WARNING - @mbggenerated
     -->
@@ -19,7 +19,12 @@
   
   <!-- 通过用户部门信息查询角色信息 -->
   <select id="findRoleByDept" parameterType="string" 
-  	resultSets="string">
-  	SELECT DR_ROLE_NO drRoleNo FROM RA_DEPT_ROLE WHERE UR_USER_NO = #{deptNo}
+  	resultType="string">
+  	SELECT DR_ROLE_NO drRoleNo FROM RA_DEPT_ROLE 
+  	<where>
+  		<if test="deptNo != null">
+  			UR_USER_NO = #{deptNo}
+  		</if>
+  	</where>
   </select>
 </mapper>

@@ -11,7 +11,7 @@ public class RaUserRole {
     @Id
     @Column(name = "UR_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String urId;
+    private Integer urId;
 
     /**
      * 用户编码
@@ -72,7 +72,7 @@ public class RaUserRole {
      *
      * @return UR_ID - 主键
      */
-    public String getUrId() {
+    public Integer getUrId() {
         return urId;
     }
 
@@ -81,7 +81,7 @@ public class RaUserRole {
      *
      * @param urId 主键
      */
-    public void setUrId(String urId) {
+    public void setUrId(Integer urId) {
         this.urId = urId;
     }
 

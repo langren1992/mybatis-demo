@@ -36,7 +36,7 @@
   
   <!-- 通过用户信息查询角色信息 -->
   <select id="findRoleByUser" parameterType="string" 
-  	resultSets="string">
+  	resultType="string">
   	SELECT UR_ROLE_NO urRoleNo FROM RA_USER_ROLE WHERE UR_USER_NO = #{userNo}
   </select>
   

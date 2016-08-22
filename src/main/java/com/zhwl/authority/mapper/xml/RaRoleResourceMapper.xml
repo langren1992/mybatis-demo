@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhwl.authority.mapper.RaRoleResourceMapper">
-  <resultMap id="BaseResultMap" type="com.zhwl.authority.model.RaRoleResource">
-    <!--
-      WARNING - @mbggenerated
-    -->
+  <resultMap id="RaRoleResourceResultMap" type="com.zhwl.authority.model.RaRoleResource">
+     <!--  WARNING - @mbggenerated -->
     <id column="RR_ID" jdbcType="VARCHAR" property="rrId" />
     <result column="RR_ROLE_NO" jdbcType="VARCHAR" property="rrRoleNo" />
     <result column="RR_RESOURCE_NO" jdbcType="VARCHAR" property="rrResourceNo" />
@@ -40,11 +38,23 @@
     <result column="REC_VER" jdbcType="INTEGER" property="recVer" />
   </resultMap>
   
-  <select id="findResourceByRole" resultSets="string">
-  select 
-  	<include refid="TsResourceResultMap"></include> 
-  	from ts_resource in 
-  (SELECT RR_RESOURCE_NO FROM RA_ROLE_RESOURCE WHERE RR_ROLE_NO IN 
+  <sql id="TsResourceResultColumn">
+  	UR_ID,
+    UR_USER_NO,
+    UR_ROLE_NO,
+    UR_DESCRIBE,
+    CREATOR,
+    CREATE_TIME,
+    MODIFIER,
+    MODIFY_TIME,
+    ORG_ID,
+    REC_VER
+  </sql>
+  
+  <select id="findResourceByRole" resultMap="TsResourceResultMap">
+  SELECT 
+	  	<include refid="TsResourceResultColumn"></include>
+  	FROM TS_RESOURCE IN (SELECT RR_RESOURCE_NO FROM RA_ROLE_RESOURCE WHERE RR_ROLE_NO IN 
   	<foreach collection="list" item="drRoleNo" index="index"
             open="(" close=")" separator=",">
             #{drRoleNo}

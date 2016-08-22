@@ -4,6 +4,7 @@ package com.zhwl.authority.controller;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +41,9 @@ public class IndexController {
 		/**
 		 * 查询用户部门权限项
 		 * */
-		permissions.addAll(raDeptRoleService.findRoleByDept(loginUser.getUserDeptNo()));
+		if(StringUtils.isNotEmpty(loginUser.getUserDeptNo())){
+			permissions.addAll(raDeptRoleService.findRoleByDept(loginUser.getUserDeptNo()));
+		}
 		/**
 		 * 从权限项中查询出菜单情况
 		 * */

@@ -23,9 +23,9 @@
     <result column="REC_VER" jdbcType="INTEGER" property="recVer" />
   </resultMap>
   
-  <select id="findUserRole" parameterType="string" resultType="string">
+  <!-- <select id="findUserRole" parameterType="string" resultType="string">
   	select 'aaa' from ts_user
-  </select>
+  </select> -->
   
   
 </mapper>
