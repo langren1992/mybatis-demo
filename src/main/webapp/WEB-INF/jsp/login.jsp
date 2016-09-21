@@ -5,7 +5,7 @@
     <title>用户登录界面</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/theme/metro-standard/easyui.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/theme/icon.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/easyui/jquery.easyui.min.js"></script>
     <style>
         body{ text-align:center}

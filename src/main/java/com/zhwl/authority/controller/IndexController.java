@@ -47,7 +47,7 @@ public class IndexController {
 		/**
 		 * 从权限项中查询出菜单情况
 		 * */
-		List<TsResource> menus = raRoleResourceService.findResourceByRole(permissions);
+		List<TsResource> menus = raRoleResourceService.findResourceByRole(permissions.toArray());
 		rs.setData(menus);
 		return rs;
 	}
@@ -55,6 +55,11 @@ public class IndexController {
 	@RequestMapping("/")
 	public String index(@CurrentUser TsUser loginUser, Model model) {
 		return "index";
+	}
+	
+	@RequestMapping("/main")
+	public String main() {
+		return "main";
 	}
 
 	@RequestMapping("/welcome")

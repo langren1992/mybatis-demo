@@ -2,142 +2,144 @@
 	pageEncoding="utf-8"%>
 <%@page import="com.zengrui.common.authority.shared.entity.*" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>资源</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/icons/icon-all.css"/>
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/common/common.js" ></script>
 
-		<link href="${pageContext.request.contextPath}/static/theme/metro-standard/easyui.css" rel="stylesheet" type="text/css" />
-		<link href="${pageContext.request.contextPath}/static/theme/icon.css" rel="stylesheet" type="text/css" />
-		<link href="${pageContext.request.contextPath}/static/icons/icon-all.css" rel="stylesheet" type="text/css" />
-		<link href="${pageContext.request.contextPath}/static/css/index.css" rel="stylesheet" type="text/css" />
+	<script src="${pageContext.request.contextPath}/static/jeasyui-extensions/jquery.jdirk.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/static/jeasyui-extensions/jeasyui.extensions.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/static/jeasyui-extensions/jeasyui.extensions.menu.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/static/jeasyui-extensions/jeasyui.extensions.tabs.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/static/jeasyui-extensions/jeasyui.extensions.panel.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/static/jeasyui-extensions/jeasyui.extensions.datagrid.js" type="text/javascript"></script>
 	
-		<script src="${pageContext.request.contextPath}/static/jquery/jquery-2.1.1.min.js"></script>
 	
-		<script src="${pageContext.request.contextPath}/static/easyui/jquery.easyui.min.js" type="text/javascript"></script>
-	
-		<script src="${pageContext.request.contextPath}/static/release/jquery.jdirk.min.js"></script>
-		<script src="${pageContext.request.contextPath}/static/release/jeasyui.extensions.all.min.js"></script>
-		<script src="${pageContext.request.contextPath}/static/release/jeasyui.icons.all.min.js"></script>
-		<script src="${pageContext.request.contextPath}/static/js/common/common.js"></script>
-		<script src="${pageContext.request.contextPath}/static/js/authority/resource.js"></script>
-		
-	  	<title>资源管理</title>
-		<style>
-			.s-btn-downarrow{
-				background:none;
-			}
-			body { 
-				font-size: 12pt;
-				font-family: 微软雅黑;
-				padding: 0; 
-				margin: 0;
-				overflow: hidden;
-			}
-			.treeClass li div{
-				font-family: 微软雅黑;
-				height: 20px;
-				margin: 0 auto;
-			}
-			.tree-title{
-				font-size: 12pt;
-			}
-		</style>
+	<style>
+		.s-btn-downarrow{
+			background:none;
+		}
+	</style>
 
+	<script type="text/javascript">
+		function initComponent(){
+			var formResStatus = $("#form_resStatus");
+			formResStatus.combobox({
+				panelHeight:"auto",
+				valueField: 'value',
+				textField: 'label',
+				data: [{
+					label: '显示',
+					value: '1'
+				},{
+					label: '隐藏',
+					value: '0'
+				}]
+			});
+			$("#res_menu").tree({
+				method: "get",
+				url: "./res/resList",
+				onClick:function(node){
+					$("#form_menu").form("load",node);
+					
+				},
+				loadFilter:function(rows){
+					 return convert(rows.dataList);
+				}
+			});
+			$("#res_btn").datagrid({
+				fit:true,
+				method: "get",
+				idField: 'resNo',
+				rownumbers: true,
+				pagination: true,
+				enableRowContextMenu: true,         //此属性开启表头列名称右键点击菜单
+				pagingMenu: { submenu: false},//开启行右键菜单的翻页功能，此属性可丰富配置，详情见 API 文档
+				exportMenu:{submenu: false},
+				toolbar:'#tb',
+				columns: [[
+					{ field: 'resNo', title: '名称', width: 80, sortable: true },
+					{ field: 'resName', title: '编码', width: 80, sortable: true },
+					{ field: 'resPermission', title: '权限项', width: 120, sortable: true },
+					{ field: 'Name', title: '描述', width: 140, sortable: true }
+				]],
+				 enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
+	             enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单
+	             enableRowContextMenu: false
+			});
+		}
 	
+	
+		$(function(){
+			initComponent();
+		});
+	</script>
 </head>
 <body>
 	<div class="easyui-layout" data-options="fit: true">
-		<div data-options="region: 'west', title: '菜单资源', iconCls: 'icon-standard-application-view-tile', split: true, minWidth: 250, maxWidth: 500" style="width: 250px;">
-			<div id="searchbar">
-                <input id="topSearchbox" name="topSearchbox" class="easyui-searchbox" data-options="width: 242, height: 26, prompt: '目录相关信息', menu: '#topSearchboxMenu'" />
-                <div id="topSearchboxMenu" style="width: 60px;">
-                    <div data-options="name:'mame', iconCls: 'icon-standard-book-addresses'">名称</div>
-                    <div data-options="name:'code', iconCls: 'icon-standard-calculator-add'">编码</div>
-                </div>
-            </div>
-			<ul id="menuRes" style="padding-top:3px;"></ul>
+
+		<div data-options="region: 'west', title: '菜单资源', iconCls: 'icon-standard-application-view-tile', split: true,collapsible:false" style="width: 250px;">
+			<ul id="res_menu"></ul>
 		</div>
-		<div data-options="region: 'center',title: '资源维护', split: true">
+		<div data-options="region: 'center', split: true">
 			<div class="easyui-layout" data-options="fit: true">
-				<div data-options="region: 'north', minWidth: 250, maxWidth: 500" style="overflow:hidden" >
-					
-					<form id="resDetail">
-						<table cellspacing="5" style="margin:0 auto">
-							<tr style="display:none">
-								<td>资源名称ID：</td>
-								<td><input class="easyui-textbox" type="text" name="id" id="id"/></td>
-								<td>父资源名称ID：</td>
-								<td><input class="easyui-textbox" type="text" name="parentId" id="parentId"/></td>
+				<div data-options="region: 'north',title: '菜单维护',collapsible:false" style="height:30%;overflow:hidden" >
+
+					<div id="dlg-toolbar">
+						<table style="width:100%">
+							<tr>
+								<td>
+									<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a>
+									<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="false">编辑</a>
+									<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a>
+									<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<form id="form_menu" style="padding:5px;">
+						<table>
+							<tr style="text-align: right">
+								<td style="width:25%"><input class="easyui-textbox" label ="上级编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resParentNo"  id="form_resParentNo"   /></td>
+								<td style="width:25%"><input class="easyui-textbox" label ="上级名称：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resParentName" id="form_resParentName"  /></td>
+								<td style="width:25%"><input class="easyui-textbox" label ="资源编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resNo" id="form_resNo"  /></td>
+								<td style="width:25%"><input class="easyui-textbox" label ="资源名称：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resName" id="form_resName"  /></td>
 							</tr>
 							<tr style="text-align: right">
-								<td>资源名称：</td>
-								<td><input class="easyui-validatebox" type="text" name="name"  id="name" data-options="required: true"/></td>
-								<td>父资源名称：</td>
-								<td><input class="easyui-textbox" type="text" name="parentName" id="parentName"/></td>
-								<td>类型：</td>
-								<td><input class="easyui-textbox" type="text" name="type" id="type"  /></td>
+								<!-- <td style="width:25%"><input class="easyui-textbox" label ="资源图标：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resIconcls" id="form_resIconcls"  /></td> -->
+								<td colspan=3><input class="easyui-textbox" label ="资源路径：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" style="" name="resUrl"  id="form_resUrl"   /></td>
+								<td style="width:25%"><input class="easyui-combobox" label ="是否可见：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resStatus" id="form_resStatus"  /></td>
 							</tr>
 							<tr style="text-align: right">
-								<td>资源编码：</td>
-								<td><input class="easyui-textbox" type="text" name="code" id="code"  /></td>
-								<td>权限项：</td>
-								<td><input class="easyui-textbox" type="text" name="permission" id="permission"  /></td>
-								<td>可用状态：</td>
-								<td><input class="easyui-textbox" type="text" name="available" id="available"  /></td>
-							</tr>
-							<tr style="text-align: right">
-								<td>图标：</td>
-								<td><input class="easyui-textbox" type="text" name="iconCls" id="iconCls"/></td>
-								<td>路径：</td>
-								<td><input class="easyui-textbox" type="text" name="href" id="href"  /></td>
-							</tr>
-							<tr style="text-align: right">
-								<td>资源描述：</td>
-								<td colspan="3"><input class="easyui-textbox" type="text" name="description" id="description" style="width:455px;"/></td>
-							</tr>
-							<tr style="display:none">
-								<td>创建者ID：</td>
-								<td><input class="easyui-textbox" type="text" name="createUserId"/></td>
-								<td>最近修改者ID：</td>
-								<td><input class="easyui-textbox" type="text" name="updateUserId"/></td>
-							</tr>
-							<tr  style="text-align: right">
-								<td>创建者：</td>
-								<td><input class="easyui-textbox" type="text" name="createUser" id="createUser"  /></td>
-								<td>创建时间：</td>
-								<td><input class="easyui-datebox" type="text" name="createTime" id="createTime"  /></td>
-							</tr>
-							<tr  style="text-align: right">
-								<td>最近更新者：</td>
-								<td><input class="easyui-textbox" type="text" name="updateUser" id="updateUser"  /></td>
-								<td>最近更新时间：</td>
-								<td><input class="easyui-datebox" type="text" name="updateTime" id="updateTime"  /></td>
+								<td colspan=4><input class="easyui-textbox" label ="资源描述：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" multiline="true" style="" name="resDescribe"  id="form_resDescribe"   /></td>
 							</tr>
 						</table>
 					</form>
 				</div>
-				<div data-options="region: 'center',title: '按钮资源'" >
-					<table id="buttonDataGird"></table>
-					<div id="tb" style="padding:5px;height:auto">
-						<div style="margin-bottom:5px">
-							<shiro:hasPermission name="resource:create">
-								<a id="add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a>
-							</shiro:hasPermission>
-							<shiro:hasPermission name="resource:update">
-								<a id="save" href="#" class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a>
-							</shiro:hasPermission>
-							<shiro:hasPermission name="resource:delete">
-								<a id="cancel" href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="false">删除</a>
-							</shiro:hasPermission>
-							<shiro:hasPermission name="resource:start">
-								<a id="start" href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="false">启用</a>
-							</shiro:hasPermission>
-							<shiro:hasPermission name="resource:end">
-								<a id="end" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">停用</a>
-							</shiro:hasPermission>
-						</div>
+				<div data-options="region: 'center',title: '按钮明细'" >
+					<table id="res_btn"></table>
+					<div id="tb">
+						<table cellpadding="5"  style="width:100%">
+							<tr>
+								<td>
+								<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">添加</a>
+								<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+								</td>
+							</tr>
+						</table>
 					</div>
 				</div>
+
 			</div>
 		</div>
 

@@ -39,10 +39,17 @@
   </resultMap>
   
   <sql id="TsResourceResultColumn">
-  	UR_ID,
-    UR_USER_NO,
-    UR_ROLE_NO,
-    UR_DESCRIBE,
+  	  RES_ID,
+    RES_NO,
+    RES_NAME,
+    RES_PARENT_NO,
+    RES_PARENT_NAME,
+    RES_URL,
+    RES_TYPE,
+    RES_STATUS,
+    RES_PERMISSION,
+    RES_ICONCLS,
+    RES_DESCRIBE,
     CREATOR,
     CREATE_TIME,
     MODIFIER,
@@ -50,12 +57,13 @@
     ORG_ID,
     REC_VER
   </sql>
-  
+  <!-- <include refid="TsResourceResultColumn"></include>  resultMap="TsResourceResultMap" -->
   <select id="findResourceByRole" resultMap="TsResourceResultMap">
   SELECT 
 	  	<include refid="TsResourceResultColumn"></include>
-  	FROM TS_RESOURCE IN (SELECT RR_RESOURCE_NO FROM RA_ROLE_RESOURCE WHERE RR_ROLE_NO IN 
-  	<foreach collection="list" item="drRoleNo" index="index"
+  	FROM TS_RESOURCE WHERE RES_NO IN (
+  	SELECT RR_RESOURCE_NO FROM RA_ROLE_RESOURCE WHERE RR_ROLE_NO IN 
+  	<foreach collection="array" item="drRoleNo" index="index"
             open="(" close=")" separator=",">
             #{drRoleNo}
        </foreach> )

@@ -3,9 +3,9 @@
  */
 
 function convert(rows){
-    function exists(rows, parentId){
+    function exists(rows, resParentNo){
         for(var i=0; i<rows.length; i++){
-            if (rows[i].id == parentId) return true;
+            if (rows[i].resNo == resParentNo) return true;
         }
         return false;
     }
@@ -14,27 +14,25 @@ function convert(rows){
     // get the top level nodes
     for(var i=0; i<rows.length; i++){
         var row = rows[i];
-        if (!exists(rows, row.parentId)){
+        if (!exists(rows, row.resParentNo)){
             nodes.push({
-                id:row.id,
-	            parentId:row.parentId,
-                parentName:row.parentName,
-                name:row.name,
-                text:row.name,
-                code:row.code,
-                type:row.type,
-                permission:row.permission,
-                available:row.available,
+            	resId:row.resId,
+                resParentNo:row.resParentNo,
+                resParentName:row.resParentName,
+                resName:row.resName,
+                text:row.resName,
+                resNo:row.resNo,
+                resType:row.resType,
+                resPermission:row.resPermission,
+                resStatus:row.resStatus,
                 isLeaf:false,
-                href:row.href,
-                iconCls:row.iconCls,
-                description:row.description,
+                resUrl:row.resUrl,
+                resIconcls:row.resIconcls,
+                resDescribe:row.resDescribe,
                 createTime:row.createTime,
-                createUserId:row.createUserId,
-                createUser:row.createUser,
-                updateUserId:row.updateUserId,
-                updateUser:row.updateUser,
-                updateTime:row.updateTime
+                creator:row.creator,
+                modifier:row.modifier,
+                modifyTime:row.modifyTime
             });
         }
     }
@@ -47,27 +45,25 @@ function convert(rows){
         var node = toDo.shift();
         for(var i = 0; i < rows.length; i++){
             var row = rows[i];
-            if( row.parentId == node.id){
+            if( row.resParentNo == node.resNo){
                 var child = {
-            		id:row.id,
-		            parentId:row.parentId,
-	                parentName:row.parentName,
-	                name:row.name,
-	                text:row.name,
-	                code:row.code,
-	                type:row.type,
-	                permission:row.permission,
-	                available:row.available,
-	                isLeaf:true,
-	                href:row.href,
-	                iconCls:row.iconCls,
-	                description:row.description,
-	                createTime:row.createTime,
-	                createUserId:row.createUserId,
-	                createUser:row.createUser,
-	                updateUserId:row.updateUserId,
-	                updateUser:row.updateUser,
-	                updateTime:row.updateTime
+            		resId:row.resId,
+                    resParentNo:row.resParentNo,
+                    resParentName:row.resParentName,
+                    resName:row.resName,
+                    text:row.resName,
+                    resNo:row.resNo,
+                    resType:row.resType,
+                    resPermission:row.resPermission,
+                    resStatus:row.resStatus,
+                    isLeaf:true,
+                    resUrl:row.resUrl,
+                    resIconcls:row.resIconcls,
+                    resDescribe:row.resDescribe,
+                    createTime:row.createTime,
+                    creator:row.creator,
+                    modifier:row.modifier,
+                    modifyTime:row.modifyTime
                 };
                 if(node.children){
                     node.children.push(child);

@@ -24,7 +24,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zhwl.authority.mapper.RaUserRoleMapper;
 import com.zhwl.authority.model.RaUserRole;
+import com.zhwl.authority.service.RaRoleResourceService;
+import com.zhwl.authority.service.RaUserRoleService;
+import com.zhwl.authority.service.impl.RaUserRoleServiceImpl;
+import com.zhwl.basis.mapper.TsRoleMapper;
 import com.zhwl.basis.mapper.TsUserMapper;
+import com.zhwl.basis.model.TsResource;
 import com.zhwl.basis.model.TsRole;
 import com.zhwl.basis.model.TsUser;
 import com.zhwl.basis.service.TsUserService;
@@ -64,10 +69,10 @@ public class RoleTestCase {
 //			});
 			
 			
-			final RaUserRoleMapper mapper = sqlSession.getMapper(RaUserRoleMapper.class);
-			PageHelper.startPage(1, 10);
-			Set<String> findUserRole = mapper.findRoleByUser("admin");
-			System.out.println(findUserRole);
+//			final RaUserRoleMapper mapper = sqlSession.getMapper(RaUserRoleMapper.class);
+//			PageHelper.startPage(1, 10);
+//			Set<String> findUserRole = mapper.findRoleByUser("admin");
+//			System.out.println(findUserRole);
 //			RaUserRole raUserRole = new RaUserRole();
 //			raUserRole.setUrUserNo("admin");
 //			raUserRole.setUrRoleNo("000001");
@@ -76,7 +81,16 @@ public class RoleTestCase {
 //			raUserRole.setModifyTime(new Date());
 //			raUserRole.setModifier("admin");
 //			raUserRole.setRecVer(1);
-//			mapper.insert(raUserRole);
+//			TsRoleMapper mapper = sqlSession.getMapper(TsRoleMapper.class);
+//			TsRole role = new TsRole();
+//			role.setRoleNo("admin");
+//			role.setRoleName("admin");
+//			role.setCreateTime(new Date());
+//			role.setCreator("admin");
+//			role.setModifyTime(new Date());
+//			role.setModifier("admin");
+//			role.setRecVer(1);
+//			mapper.insert(role);
 			
 //		    System.out.println(mapper.selectCount(role));
 //		    //查询100
@@ -94,6 +108,13 @@ public class RoleTestCase {
 //			System.out.println(insert);
 //			Example e = new Example(RoleMapper.class);
 //			e.createCriteria().andIsNotNull("code");
+			RaUserRoleService raUserRoleService = ac.getBean("raUserRoleServiceImpl",RaUserRoleService.class);
+			RaRoleResourceService raRoleResourceService = ac.getBean("raRoleResourceServiceImpl",RaRoleResourceService.class);
+			Set<String> findRoleByUser = raUserRoleService.findRoleByUser("admin");
+			List<TsResource> menus = raRoleResourceService.findResourceByRole(findRoleByUser.toArray());
+			
+			System.out.println(menus);
+			
 		} finally {
 		    sqlSession.close();
 		}

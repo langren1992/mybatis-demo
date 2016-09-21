@@ -96,12 +96,13 @@ function updateHash(index){
 	window.location.hash = opts.href ? opts.href : "";
 }
 function openContent(node){
+	$("#mainLayout").layout("toggleAll", "collapse");
 	if($("#menuContent").tabs("exists",node.text)){
 		$('#menuContent').tabs('select', node.text);
 	}else{
 		$("#menuContent").tabs("insert", {
 			title: node.text,
-			href: node.href,
+			href: node.resUrl,
 			closable: true,
 			iniframe:true
 		});

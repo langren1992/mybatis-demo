@@ -10,5 +10,5 @@ import tk.mybatis.mapper.common.Mapper;
 
 public interface RaRoleResourceMapper extends Mapper<RaRoleResource> {
 	
-	public List<TsResource> findResourceByRole(String roleNo);
+	public List<TsResource> findResourceByRole(Object[] roleNoArray);
 }

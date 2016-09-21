@@ -7,6 +7,6 @@ import com.zhwl.basis.model.TsResource;
 
 public interface RaRoleResourceService {
 	
-	public List<TsResource> findResourceByRole(Set<String> roleNoSet);
+	public List<TsResource> findResourceByRole(Object[] roleNoArray);
 
 }
